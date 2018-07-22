@@ -24,7 +24,7 @@ enableEmoji = true
     authorimage = "images/sufuf3_1519028337_878.jpg"
     dateformat = "Jan 2, 2017"
     highlightjs = true
-    mainSections = ["post"]
+    mainSections = ["posts"]
 
 ## Site Meta Settings
 [params.meta]
