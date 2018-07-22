@@ -8,6 +8,7 @@ copyright = "Samina Fu"
 
 [permalinks]
     post = "/:year/:month/:day/:slug/"
+    serie = "/:year/:month/:day/:slug/"
 
 [Taxonomies]
     tag = "tags"
@@ -43,7 +44,7 @@ copyright = "Samina Fu"
 [[menu.main]]
     url = "/series/"
     identifier = "series"
-    name = "series"
+    name = "Series"
     weight = 2
 
 [[menu.main]]
