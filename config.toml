@@ -2,31 +2,41 @@ baseURL = "https://bestsamina.github.io/"
 languageCode = "en-us"
 theme = "hyde-hyde"
 title = "Samina's 技術筆記 X 點滴紀錄"
-disqusShortname = "bestsamina"
-
 copyright = "Samina Fu"
+
+## Hugo Built-in Features
+disqusShortname = "bestsamina"
+enableEmoji = true
+
 
 [permalinks]
     post = "/:year/:month/:day/:slug/"
-    serie = "/:year/:month/:day/:slug/"
+    series = "/:year/:month/:day/:slug/"
 
-[Taxonomies]
-    tag = "tags"
-    series = "series"
-    series-desc = "series-desc"
+#[Taxonomies]
+#    tag = "tags"
+#    series = "series"
+#    series-desc = "series-desc"
 
 [params]
     author = "Samina Fu"
     description = "記錄一些技術筆記與生活紀錄"
     authorimage = "images/sufuf3_1519028337_878.jpg"
-    dateformat = "Jan 2, 2006"
+    dateformat = "Jan 2, 2017"
     highlightjs = true
     mainSections = ["post"]
+
+## Site Meta Settings
+[params.meta]
+    description = "Samina's 技術筆記 X 點滴紀錄 :: 記錄一些技術筆記與生活紀錄"
+    keywords = "blog,python,golang,javascript,container,opencord,cord,sdn,network"
+
 
 ## Social Accounts
 [params.social]
     twitter = "sufuf3149"
     github = "sufuf3"
+    gitlab = "sufuf3"
 
 ## Main Menu
 [[menu.main]]
@@ -56,3 +66,19 @@ copyright = "Samina Fu"
     url = "/page/awesome-blogs"
     name = "awesome-blogs"
     weight = 4
+
+# https://gohugo.io/content-management/related
+[related]
+    # Only include matches with rank >= threshold. This is a normalized rank between 0 and 100.
+    threshold = 80
+    # To get stable "See also" sections we, by default, exclude newer related pages.
+    includeNewer = false
+    # Will lower case keywords in both queries and in the indexes.
+    toLower = false
+
+[[related.indices]]
+    name  = "tags"
+    weight = 100
+[[related.indices]]
+    name = "keywords"
+    weight = 150
