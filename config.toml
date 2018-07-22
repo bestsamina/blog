@@ -1,4 +1,4 @@
-baseURL = "https://bestsamina.github.io"
+baseURL = "https://bestsamina.github.io/"
 languageCode = "en-us"
 theme = "hyde-hyde"
 title = "Samina's 技術筆記 X 點滴紀錄"
