@@ -1,0 +1,57 @@
+baseURL = "/"
+languageCode = "en-us"
+theme = "hyde-hyde"
+title = "Samina's 技術筆記 X 點滴紀錄"
+disqusShortname = "bestsamina"
+
+copyright = "Samina Fu"
+
+[permalinks]
+    post = "/:year/:month/:day/:slug/"
+
+[Taxonomies]
+    tag = "tags"
+    series = "series"
+    series-desc = "series-desc"
+
+[params]
+    author = "Samina Fu"
+    description = "記錄一些技術筆記與生活紀錄"
+    authorimage = "/img/sufuf3_1519028337_878.jpg"
+    dateformat = "Jan 2, 2006"
+    highlightjs = true
+    mainSections = ["post"]
+
+## Social Accounts
+[params.social]
+    twitter = "sufuf3149"
+    github = "sufuf3"
+
+## Main Menu
+[[menu.main]]
+    name = "Posts"
+    identifier = "posts"
+    url = "/posts/"
+    weight = 1
+
+[[menu.main]]
+    name = "About"
+    identifier = "about"
+    weight = 200
+    url = "/about/"
+
+[[menu.main]]
+    url = "/serie/"
+    identifier = "series"
+    name = "series"
+    weight = 2
+
+[[menu.main]]
+    url = "/tags/"
+    name = "Tags"
+    weight = 3
+
+[[menu.main]]
+    url = "/page/awesome-blogs"
+    name = "awesome-blogs"
+    weight = 4
