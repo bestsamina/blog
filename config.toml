@@ -17,7 +17,7 @@ copyright = "Samina Fu"
 [params]
     author = "Samina Fu"
     description = "記錄一些技術筆記與生活紀錄"
-    authorimage = "/images/sufuf3_1519028337_878.jpg"
+    authorimage = "images/sufuf3_1519028337_878.jpg"
     dateformat = "Jan 2, 2006"
     highlightjs = true
     mainSections = ["post"]
@@ -41,7 +41,7 @@ copyright = "Samina Fu"
     url = "/about/"
 
 [[menu.main]]
-    url = "/serie/"
+    url = "/series/"
     identifier = "series"
     name = "series"
     weight = 2
