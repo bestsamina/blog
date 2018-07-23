@@ -1,5 +1,5 @@
 +++
-title = "Kubernetes 學習筆記"
+title = "[Kubernetes] 學習筆記"
 tags = ["Kubernetes", "container", "k8s"]
 categories = ["Kubernetes"]
 date = 2018-03-09T14:51:05+08:00
