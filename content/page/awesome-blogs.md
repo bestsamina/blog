@@ -1,4 +1,8 @@
-# Awesome Blogs
++++
+title = "Awesome Blogs"
+showcomments = false
++++
+
 
 - [Hwchiu Learning Note](http://hwchiu.com/)
 - [KaiRen's Blog](https://kairen.github.io/)
