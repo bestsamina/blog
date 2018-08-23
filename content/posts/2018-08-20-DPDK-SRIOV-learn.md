@@ -88,8 +88,48 @@ Linux kernel 的 overhead 包含：
 ## DPDK 的技術理解
 
 - 全名：Data Plane Developer Kit 
-- 2011 年 09 月被 Intel 提出，2013 以 open source 釋出
+- 2011/09 被 Intel 提出，2013 以 open source 釋出
 - license 是 BSD
+- 他是加速封包處理的框架
+- 他可以跑在任何的 processors 上，原本只有支援的 CPU 是 intel x86 ，不過現在延伸到 IBM power 和 ARM 都可以。
+
+在概念上，它就是直接將封包跳過 kernel 層，直接到 user space 處理。  
+![](https://i.imgur.com/KTBX4Dk.png)  
+> 圖片與文章參考來源：https://software.intel.com/en-us/articles/open-vswitch-with-dpdk-overview
+
+如同下圖這張表的差異比較。  
+![](https://i.imgur.com/zWlbD2m.png)
+  
+然而到底怎麼做到的？  
+DPDK 會在每個特殊的環境中建立 Environment Abstraction Layer (EAL)。  
+這個環境抽象層(EAL)，是通過 make ，在 Linux 的 user space 編譯完成。(就是這步：`sudo make install T=$DPDK_TARGET DESTDIR=install`)  
+EAL 會提供一個通用的 interface (就是 ./usertools/...) ，它隱藏內部很多的 libraries 和 Apps.  
+EAL 提供的 service 有：  
+
+- DPDK loading and launching
+- Support for multi-process and multi-thread execution types
+- Core affinity/assignment procedures
+- System memory allocation/de-allocation
+- Atomic/lock operations
+- Time reference
+- PCI bus access
+- Trace and debug functions
+- CPU feature identification
+- Interrupt handling
+- Alarm operations
+- Memory management (malloc)
+
+比方說使用 `igb_uio.ko` ，就是 igb 這個 intel 網卡驅動程式借助 UIO (Userspace IO) 技術，將那張網卡硬體mapping 到 user space 中。  
+當綁定後， PMD（Poll Mode Drivers）會直接 accesses RX 和 TX 的 descriptors，不會有任何中斷。以便在使用者的應用程式中快速接收，處理和傳送 package。那他有兩種模式 (run-to-completion 和 pipeline)。  
+  
+- pipeline 模式就是透過 API 來不斷輪詢在多個 port RX 之間。
+- run-to-completion 模式就是透過 API 來不斷輪詢特定 port 的 RX 。
+
+所以就要指定特定的 CPU 來處理 DPDK。  
+因為 packet buffers 需要使用到 很大的 memory pool allocation ，所以需要使用到 Hugepage。這意味著 HUGETLBFS 選項需要在 running 的 kernel 中啟用。
+使用 hugepage allocations ，可以使用更少 page 並提高效能，可以減少 TLBs(Translation Lookaside Buffers)，減少虛擬的 page address 轉換到物理的 page address。如果沒有 hugepage，TLB 缺失率會變高，因為會發生在使用標準的 4k page size，降低。
+而且 Hugepage 可以讓 multiple DPDK processes 一起使用，  
+讓不同的 process 共同 access 同一塊 shared memory，inter-process communication (IPC) 也會變得更簡單。  
 
 ## 參考文件
 
@@ -97,3 +137,6 @@ Linux kernel 的 overhead 包含：
 - https://www.metaswitch.com/blog/accelerating-the-nfv-data-plane
 - https://core.dpdk.org/doc/
 - https://www.intel.com.tw/content/www/tw/zh/support/articles/000005722/network-and-i-o/ethernet-products.html
+- https://doc.dpdk.org/guides/index.html
+- https://dpdk-docs.readthedocs.io/en/latest/index.html
+- https://feisky.xyz/post/2016-04-24-dpdk-introduction/
