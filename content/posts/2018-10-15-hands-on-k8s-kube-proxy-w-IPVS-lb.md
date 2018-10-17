@@ -95,7 +95,7 @@ kubectl expose deployment nginx --namespace=user-a-ns --port 80 --external-ip 10
 kubectl expose deployment nginx --namespace=user-b-ns --port 80 --external-ip 100.67.151.10
 ```
 
-#### 4. 將 VIP List 綁定在網卡上
+#### 4. 將 VIP List 綁定在網卡上(這步驟在 v1.10.x 要做，但若是 v.1.11.x 請跳過此步，因為)
 
 在其中一台 master 主機上執行以下指令  
 暫解將eth0掛上VIP List的資訊，  
@@ -115,6 +115,7 @@ sudo ifconfig eth0:1 100.67.151.10 netmask 255.255.0.0 broadcast 100.67.255.255
 
 #### 2. 相關資訊
 
+- v1.10.x
 ```
 $ ip a
 2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
@@ -126,6 +127,64 @@ $ ip a
     inet 100.67.151.10/16 brd 100.67.255.255 scope global secondary eth0:1
        valid_lft forever preferred_lft forever
     inet6 fe80::226:2dff:fe08:3a4/64 scope link 
+       valid_lft forever preferred_lft forever
+
+18: kube-ipvs0: <BROADCAST,NOARP> mtu 1500 qdisc noop state DOWN group default
+    link/ether e6:f5:f6:9f:0b:9a brd ff:ff:ff:ff:ff:ff
+    inet 10.96.0.1/32 brd 10.96.0.1 scope global kube-ipvs0
+       valid_lft forever preferred_lft forever
+    inet 10.96.0.10/32 brd 10.96.0.10 scope global kube-ipvs0
+       valid_lft forever preferred_lft forever
+    inet 10.109.155.250/32 brd 10.109.155.250 scope global kube-ipvs0
+       valid_lft forever preferred_lft forever
+    inet 10.103.110.147/32 brd 10.103.110.147 scope global kube-ipvs0
+       valid_lft forever preferred_lft forever
+    inet 10.102.184.202/32 brd 10.102.184.202 scope global kube-ipvs0
+       valid_lft forever preferred_lft forever
+    inet 10.104.148.60/32 brd 10.104.148.60 scope global kube-ipvs0
+       valid_lft forever preferred_lft forever
+    inet 10.105.12.124/32 brd 10.105.12.124 scope global kube-ipvs0
+       valid_lft forever preferred_lft forever
+    inet 10.102.141.143/32 brd 10.102.141.143 scope global kube-ipvs0
+       valid_lft forever preferred_lft forever
+    inet 10.107.197.118/32 brd 10.107.197.118 scope global kube-ipvs0
+       valid_lft forever preferred_lft forever
+
+$ ipvsadm -ln
+TCP  100.67.151.9:80 rr
+  -> 10.244.241.156:80            Masq    1      0          0         
+  -> 10.244.241.158:80            Masq    1      0          0         
+TCP  100.67.151.10:80 rr
+  -> 10.244.241.157:80            Masq    1      0          0         
+  -> 10.244.241.159:80            Masq    1      0          0   
+```
+
+- v1.11.x
+```
+$ ip a
+18: kube-ipvs0: <BROADCAST,NOARP> mtu 1500 qdisc noop state DOWN group default
+    link/ether e6:f5:f6:9f:0b:9a brd ff:ff:ff:ff:ff:ff
+    inet 10.96.0.1/32 brd 10.96.0.1 scope global kube-ipvs0
+       valid_lft forever preferred_lft forever
+    inet 10.96.0.10/32 brd 10.96.0.10 scope global kube-ipvs0
+       valid_lft forever preferred_lft forever
+    inet 10.109.155.250/32 brd 10.109.155.250 scope global kube-ipvs0
+       valid_lft forever preferred_lft forever
+    inet 10.103.110.147/32 brd 10.103.110.147 scope global kube-ipvs0
+       valid_lft forever preferred_lft forever
+    inet 10.102.184.202/32 brd 10.102.184.202 scope global kube-ipvs0
+       valid_lft forever preferred_lft forever
+    inet 10.104.148.60/32 brd 10.104.148.60 scope global kube-ipvs0
+       valid_lft forever preferred_lft forever
+    inet 10.105.12.124/32 brd 10.105.12.124 scope global kube-ipvs0
+       valid_lft forever preferred_lft forever
+    inet 100.67.151.9/32 brd 100.67.151.9 scope global kube-ipvs0
+       valid_lft forever preferred_lft forever
+    inet 10.102.141.143/32 brd 10.102.141.143 scope global kube-ipvs0
+       valid_lft forever preferred_lft forever
+    inet 10.107.197.118/32 brd 10.107.197.118 scope global kube-ipvs0
+       valid_lft forever preferred_lft forever
+    inet 100.67.151.10/32 brd 100.67.151.10 scope global kube-ipvs0
        valid_lft forever preferred_lft forever
 
 $ ipvsadm -ln
