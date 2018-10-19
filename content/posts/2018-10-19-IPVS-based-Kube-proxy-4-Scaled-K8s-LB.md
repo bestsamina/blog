@@ -5,7 +5,7 @@ categories = ["Kubernetes"]
 date = 2018-10-15T12:05:37+08:00
 +++
 
-> 這篇為 10/19 talk 的文字版， slides 是 https://speakerdeck.com/sufuf3/ipvs-based-kube-proxy-for-scaled-kubernetes-load-balancing 。
+> 這篇為 [10月19日 talk](https://www.accupass.com/event/1810120759471826477649) 的文字版， slides 是 https://speakerdeck.com/sufuf3/ipvs-based-kube-proxy-for-scaled-kubernetes-load-balancing 。
 
 內容脈絡  
 
@@ -65,8 +65,8 @@ Service 是抽象的一層，主要定義一組 pod 和網路的規則讓外部�
 kube-proxy 介紹：  
 
 - 管理 host 上的網路規則來確保 k8s 的 service 定義的規則
-- 執行連線的 forwarding 
-- 在每一台 node 是都有 kube-proxy
+- 執行連線的 forwarding
+- 在每一台 node 上都有 kube-proxy
 - proxies UDP, TCP and SCTP
 - 提供 load balancing
 - 專門實現 service
@@ -78,7 +78,7 @@ kube-proxy 介紹：
 有[三種](https://kubernetes.io/docs/reference/command-line-tools-reference/kube-proxy/)：  
 
 - [userspace (older)](https://github.com/kubernetes/kubernetes/tree/master/pkg/proxy/userspace):
-由圖所知，當 Client service IP 時，會從 iptables 到 kube-Proxy ，再由 kube-proxy 處理封包的轉送到後端的 pod。  
+從圖片中我們可以看到，當外部 Client 請求 service IP 後，會比對 iptales 的 rule 然後將封包轉送到 kube-Proxy 這個 app pod ，再由 kube-proxy 處理封包的轉送到後端的 pod。  
 ![](https://d33wubrfki0l68.cloudfront.net/b8e1022c2dd815d8dd36b1bc4f0cc3ad870a924f/1dd12/images/docs/services-userspace-overview.svg)
 
 - [iptables (faster)](https://github.com/kubernetes/kubernetes/tree/master/pkg/proxy/iptables):
@@ -104,7 +104,7 @@ LVS 全名是 `Linux Virtual Server`。它是在 cloud 上或是真實 server �
 ![](https://i.imgur.com/EU0gAUv.png)  
 
 那 LVS 和 IPVS 的關係又是什麼呢？  
-這要來看看目前 [LVS 的框架](http://www.linuxvirtualserver.org/about.html)了。  
+這要來看看 [LVS 的框架](http://www.linuxvirtualserver.org/about.html)了。  
 ![](https://i.imgur.com/lE6iI9F.png)  
 由圖中所知，IPVS 是在 LVS 框架中最底層的位置。也就是說 LVS 是 base on IPVS 來實現的拉！那我們就要來看看 IPVS 了。  
 
@@ -123,7 +123,7 @@ LVS 全名是 `Linux Virtual Server`。它是在 cloud 上或是真實 server �
 
 ### IPVS with Netfilter (IPVS 和 Netfilter)
 
-那我們知道 IPVS 是使用 Netfilter 的 module，內就來看看 IPVS 和 Netfilter 之間的關係吧！  
+那我們知道 IPVS 是使用 Netfilter 的 module，那就來看看 IPVS 和 Netfilter 之間的關係吧！  
 > Ref: http://www.austintek.com/LVS/LVS-HOWTO/HOWTO/LVS-HOWTO.filter_rules.html, https://www.digitalocean.com/community/tutorials/a-deep-dive-into-iptables-and-netfilter-architecture, http://www.178linux.com/13570  
 
 ![](https://i.imgur.com/i60QKw4.png)  
@@ -139,11 +139,17 @@ LVS 全名是 `Linux Virtual Server`。它是在 cloud 上或是真實 server �
 
 大致了解 IPVS ，那 IPVS 和 iptables 有什麼差別呢？  
 他們其實都是使用 Netfilter ，來讓封包達到轉送的機制。  
-但功能面卻是不一樣的。  
-iptables 是個 Userspace 的應用程式，是 Linux firewall 。它可以有很多的選擇來 config firewall。  
-而因為它可以下很多的 rule ，所以在加或刪 rule 時，就會增加很多 latency。而且在 routing 上也會有 latency。  
-但 IPVS 就不一樣了，它的功能是因為 LVS 而生的。主要是支援 Load balance。而且也會有比較好的效率。  
-換個角度想，k8s 是個 cluster ，而 LVS 也是從 cluster 的角度來設計的，在這樣的考量點下開發出來的東西，也會比較符合需求。  
+但實作面卻是不一樣的。  
+在 INPUT chain 這邊，不論是 IPVS 或是 iptables 都會到 userspace 來進行封包解析，來看看封包要往哪邊走。  
+然而，就是在判斷封包要往哪邊走，這邊的方法兩者使用的方式是不一樣的。  
+iptables 規則設定是：n 張 table，每張 table 內有 m 個 chain ，每個 chain 中有 rule。如圖(source: https://www.thegeekstuff.com/2011/01/iptables-fundamentals/)  
+![](https://static.thegeekstuff.com/wp-content/uploads/2011/01/iptables-table-chain-rule-structure.png)  
+雖然封包不會跑過所有的 Table 和 chain。  
+但 rules 通常會是很多的。雖然封包只要被拆解一次，但封包在比對每個 rule 時，都要再看要用進來的這個封包用什麼欄位來和目前輪到的 rule 進行比對。  
+這也是為什麼我們在下 rule 的時候很重視 rule 的順序性。(所以 rule 也會因人的設定好不好，效能也會有差異)  
+IPVS 在判斷上面就簡單很多，他是用 hash table(雜湊表)，在時間複雜度上，通常是是 O(1)，即便遇到最差的情況(worst case)，也只是 O(n)。理論可以參考：https://zh.wikipedia.org/wiki/%E5%93%88%E5%B8%8C%E8%A1%A8 (至於怎麼做，就要翻 source code 了)  
+
+就上面的兩種分析封包判斷要往哪走的方法，我們也可以了解到他們在封包轉送上的效率是有差別的。
   
 而華為在去年的[演講](https://www.slideshare.net/LCChina/scale-kubernetes-to-support-50000-services)中，也有提供 k8s kube-proxy 中使用 iptables 和 IPVS mode 的差異。(From 華為投影片)  
 ![](https://i.imgur.com/HrW0m0z.png)
@@ -190,7 +196,7 @@ cut -f1 -d " "  /proc/modules | grep -e ip_vs -e nf_conntrack_ipv4
 
 (如果要使用其他演算法，那可以設定 `--ipvs-scheduler=rr` rr 改為其他的)  
 
-**3. 如果是在 v.10 之前的版本， kube-proxy 要加下面的參數**
+**3. 如果是在 v1.10 之前的版本， kube-proxy 要加下面的參數**
 
 ```
 --feature-gates=SupportIPVSProxyMode=true
@@ -205,6 +211,8 @@ cut -f1 -d " "  /proc/modules | grep -e ip_vs -e nf_conntrack_ipv4
 - 分別為每個 service IP 建立 IPVS virtual servers
 
 ### Example
+
+- v1.10.x
 
 ```
 # kubectl describe svc nginx -n a-ns
@@ -250,11 +258,62 @@ TCP  100.67.151.9:80 rr
   -> 10.244.241.158:80            Masq    1      0          0
 ```
 
+- v1.11.x
+
+```
+# kubectl describe svc nginx -n a-ns
+Name:              nginx
+Namespace:         a-ns
+Labels:            run=nginx
+Annotations:       <none>
+Selector:          run=nginx
+Type:              ClusterIP
+IP:                10.105.12.124
+External IPs:      100.67.151.9
+Port:              <unset>  80/TCP
+TargetPort:        80/TCP
+Endpoints:         10.244.241.156:80,10.244.241.158:80
+Session Affinity:  None
+Events:            <none>
+
+# ip a
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
+    link/ether 00:26:2d:08:03:a4 brd ff:ff:ff:ff:ff:ff
+    inet 100.67.151.2/16 brd 100.67.255.255 scope global noprefixroute eth0
+       valid_lft forever preferred_lft forever
+18: kube-ipvs0: <BROADCAST,NOARP> mtu 1500 qdisc noop state DOWN group default
+    link/ether e6:f5:f6:9f:0b:9a brd ff:ff:ff:ff:ff:ff
+    inet 10.96.0.1/32 brd 10.96.0.1 scope global kube-ipvs0
+       valid_lft forever preferred_lft forever
+    inet 10.96.0.10/32 brd 10.96.0.10 scope global kube-ipvs0
+       valid_lft forever preferred_lft forever
+    inet 10.105.12.124/32 brd 10.105.12.124 scope global kube-ipvs0
+       valid_lft forever preferred_lft forever
+    inet 100.67.151.9/16 brd 100.67.255.255 scope global kube-ipvs0
+       valid_lft forever preferred_lft forever
+
+# ipvsadm -ln
+IP Virtual Server version 1.2.1 (size=4096)
+Prot LocalAddress:Port Scheduler Flags
+  -> RemoteAddress:Port           Forward Weight ActiveConn InActConn
+TCP  10.105.12.124:80 rr
+  -> 10.244.241.156:80            Masq    1      0          0
+  -> 10.244.241.158:80            Masq    1      0          0
+TCP  100.67.151.9:80 rr
+  -> 10.244.241.156:80            Masq    1      0          0
+  -> 10.244.241.158:80            Masq    1      0          0
+```
+
 ## Implement IPVS-based K8s service load balancing (實現 IPVS-based K8s service load balancing)
 
 請參考這篇[筆記](https://bestsamina.github.io/posts/2018-10-15-hands-on-k8s-kube-proxy-w-ipvs-lb/)  
 
 ## Conclusion (結論)
+
+回過頭來，再次複習一下，這次我們要探討的是 kube-proxy 中的 IPVS，我們知道 kube-proxy 是要處理封包針對不同的 service 做轉送，是處理網路規則的。講白話一點就是， pod 開出給外面 access 的 port 或是對應的 IP 等， repuest 進來， kube-proxy 要把這個封包送到對應的 pod，讓 pod 處理，在回應出去。  
+而可以做到封包轉送這件事的在 kube-proxy mode 中有三種方式可以做到。  
+目前普遍是 iptables。但 IPVS 也可以做到，而且效能更好。  
+以下是 IPVS 與本次介紹的一些重點整理  
 
 - IPVS 是 LVS 中的 L4 負載均衡器
 - IPVS提供
@@ -263,3 +322,15 @@ TCP  100.67.151.9:80 rr
     - server 的健康檢查和連接重試等
 - 我們可以使用 kube-proxy 的 IPVS 模式
 - 了解 kube-proxy 的 IPVS mode 的運作原理
+
+## 其他
+
+在搜尋 IPVS 的過程中，發現了 [BPF(Berkeley Packet Filter)](https://lwn.net/Articles/747551/) 一個即將要取代 iptables 的工具。 cilium 這篇 blog 也指出為何要用 BPF。 而 Facebook 也發現 BPF 效能比 IPVS 好，所以換成 BPF。  
+有時間看來要研究一下。  
+
+- Blog https://cilium.io/blog/2018/04/17/why-is-the-kernel-community-replacing-iptables/
+- FB 簡報：https://www.netdevconf.org/2.1/slides/apr6/zhou-netdev-xdp-2017.pdf
+
+## 參考
+
+- https://gigenchang.wordpress.com/2014/04/19/10%E5%88%86%E9%90%98%E5%AD%B8%E6%9C%83iptables/
