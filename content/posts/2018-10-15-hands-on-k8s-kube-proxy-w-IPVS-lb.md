@@ -116,6 +116,7 @@ sudo ifconfig eth0:1 100.67.151.10 netmask 255.255.0.0 broadcast 100.67.255.255
 #### 2. 相關資訊
 
 - v1.10.x
+
 ```
 $ ip a
 2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc mq state UP group default qlen 1000
@@ -160,6 +161,7 @@ TCP  100.67.151.10:80 rr
 ```
 
 - v1.11.x
+
 ```
 $ ip a
 18: kube-ipvs0: <BROADCAST,NOARP> mtu 1500 qdisc noop state DOWN group default
