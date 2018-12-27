@@ -1,7 +1,7 @@
 baseURL = "https://bestsamina.github.io/"
 languageCode = "en-us"
 theme = "hyde-hyde"
-title = "Samina's 技術筆記 X 點滴紀錄"
+title = "Life & Technological Journey of Samina"
 copyright = "Samina Fu"
 
 ## Hugo Built-in Features
@@ -20,7 +20,7 @@ enableEmoji = true
 
 [params]
     author = "Samina Fu"
-    description = "記錄一些技術筆記與生活紀錄"
+    description = "This blog is about technology and the record of my life. Hope the logs can help you and me someday."
     authorimage = "images/sufuf3_1519028337_878.jpg"
     dateFmt = "Jan 02, 2006"
     dateformat = "Jan 2, 2017"
@@ -29,7 +29,7 @@ enableEmoji = true
 
 ## Site Meta Settings
 [params.meta]
-    description = "Samina's 技術筆記 X 點滴紀錄 :: 記錄一些技術筆記與生活紀錄"
+    description = "Life & Technological Journey of Samina - Hello and welcome to my blog. My name is Samina Fu. This blog is about technology and the record of my life. Hope the logs can help you and me someday."
     keywords = "blog,python,golang,javascript,container,opencord,cord,sdn,network"
 
 
