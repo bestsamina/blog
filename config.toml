@@ -38,6 +38,7 @@ enableEmoji = true
     twitter = "sufuf3149"
     github = "sufuf3"
     gitlab = "sufuf3"
+    medium = "@sufuf3149"
 
 ## Main Menu
 [[menu.main]]
