@@ -35,6 +35,8 @@ categories = ["Kubernetes"]
     - [Operator SDK](https://github.com/operator-framework/operator-sdk): 就可以用它 build operator。
     - [Operator Lifecycle Manager](https://github.com/operator-framework/operator-lifecycle-manager) (OLM): 可以管理 operators 和 CRUD Kubernetes resource 用...。(可以到這邊玩玩：https://www.katacoda.com/openshift/courses/operatorframework/operator-lifecycle-manager ，簡單玩完後會發現功能蠻強大的)
 
+詳細的介紹請參閱：https://coreos.com/blog/introducing-operator-framework  
+
 ## 認識 operator-sdk CLI
 
 ```
@@ -142,7 +144,7 @@ INFO[0000] Project creation complete.
 
 ```
 $ cd play-k8s-operator/
-$ $ tree
+$ tree
 .
 ├── build
 │   └── Dockerfile
@@ -322,7 +324,8 @@ pod/play-k8s-operator-5c8fdc8fd-6m8tv   1/1     Running       0          6m44s
 編輯 `deploy/crds/GROUP_VERSION_CRDNAME_cr.yaml` 後 deploy。  
   
 在我未來的專案設計流程中，會是需要先自己 create 一個 namespace 後，再依據已經建立的 namespace ，建立自己的 resource。  
-不過即便是跑最新的 v0.4.0 或是用 master 上最新的 commit build 出 helm-operator image ，除了可以部署在 default namespace 外，目前都尚未成功可以部署在自己 create 的 namespace 中 。因此這部份待解決中...。  
+以下就簡單的來用 default namespace 部署。
+<!--不過即便是跑最新的 v0.4.0 或是用 master 上最新的 commit build 出 helm-operator image ，除了可以部署在 default namespace 外，目前都尚未成功可以部署在自己 create 的 namespace 中 。因此這部份待解決中...。  -->
 
 #### 1. 編輯 `deploy/crds/GROUP_VERSION_CRDNAME_cr.yaml`
 
