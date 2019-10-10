@@ -1,7 +1,7 @@
 +++
 title = "IPVS-based Kube-proxy for Scaled Kubernetes Load Balancing"
-tags = ["Kubernetes", "K8s", "container", "kube-proxy", "IPVS"]
-categories = ["Kubernetes"]
+tags = ["Kubernetes", "K8s", "container", "kube-proxy", "IPVS", "Cloud-Native"]
+categories = ["Cloud-Native"]
 date = 2018-10-15T12:05:37+08:00
 +++
 

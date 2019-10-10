@@ -1,7 +1,7 @@
 +++
 title = "王永福老師《教學的技術》新書見面會 (新竹場) 心得紀錄"
 date = 2019-03-06T23:59:35+08:00
-tags = ["book", "teaching-skill"]
+tags = ["books", "teaching-skill"]
 categories = ["Life"]
 +++
 

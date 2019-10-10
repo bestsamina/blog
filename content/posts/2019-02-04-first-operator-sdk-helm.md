@@ -1,8 +1,8 @@
 +++
 title = "第一次玩 operator-sdk 就上手"
 date = 2019-02-04T14:33:14+08:00
-tags = ["operator-sdk", "operator", "Kubernetes", "helm"]
-categories = ["Kubernetes"]
+tags = ["operator-sdk", "operator", "Kubernetes", "helm", "Cloud-Native"]
+categories = ["Cloud-Native"]
 +++
 
 ## 文章脈絡

@@ -1,7 +1,7 @@
 +++
 title = "實現 IPVS-based K8s service load balancing - 不同 namespace 擁有自己的 external IP"
-tags = ["Kubernetes", "K8s", "container", "kube-proxy", "IPVS"]
-categories = ["Kubernetes"]
+tags = ["Kubernetes", "K8s", "container", "kube-proxy", "IPVS", "Cloud-Native"]
+categories = ["Cloud-Native"]
 date = 2018-10-15T11:25:11+08:00
 +++
 
