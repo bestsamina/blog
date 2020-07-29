@@ -90,3 +90,6 @@ enableEmoji = true
 [[related.indices]]
     name = "keywords"
     weight = 150
+
+[params.adsense]
+  client = "ca-pub-6396786781922729"
