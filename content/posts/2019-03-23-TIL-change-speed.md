@@ -126,3 +126,5 @@ $ ip a
     inet6 fe80::8eea:1bff:fe30:da42/64 scope link
        valid_lft forever preferred_lft forever
 ```
+
+

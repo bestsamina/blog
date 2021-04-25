@@ -131,6 +131,8 @@ EAL 提供的 service 有：
 而且 Hugepage 可以讓 multiple DPDK processes 一起使用，  
 讓不同的 process 共同 access 同一塊 shared memory，inter-process communication (IPC) 也會變得更簡單。  
 
+
+
 ## 參考文件
 
 - https://www.slideshare.net/garyachy/dpdk-44585840
