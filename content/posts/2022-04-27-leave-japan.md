@@ -101,3 +101,4 @@ My number 卡上會被蓋上「返納」章並交還給你。申請時也需要�
 ## 參考連結
 - https://vocus.cc/article/6207ea4cfd8978000151a9b8 
 - https://daisyenn.com/2021/07/21/blog_leavejapan1/
+- https://wagaya-japan.com/zh_tw/journal_detail.php?id=5076
