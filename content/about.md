@@ -1,7 +1,6 @@
-+++
-title = "About Me"
-showcomments = false
-+++
+---
+title: About Me
+---
 
 ## About me
 
