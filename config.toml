@@ -1,95 +1,114 @@
 baseURL = "https://bestsamina.github.io/"
 languageCode = "en-us"
-theme = "hyde-hyde"
-title = "Life & Technological Journey of Samina"
-copyright = "Samina Fu"
+theme = "personal-web"
+title = "Samina Website"
+copyright = "@Samina Fu"
+googleAnalytics = "ca-pub-6396786781922729"
+enableEmoji=true
+enableRobotsTXT=true
+pygmentsUseClasses=true
+pygmentsCodeFences=true
 
-## Hugo Built-in Features
-disqusShortname = "bestsamina"
-enableEmoji = true
+[params.intro]
+  main = "Hi, I'm Samina 👋"
+  sub = "This is my Life & Technological Journey"
 
+[taxonomies]
+  tech = "techs"
 
-[permalinks]
-    post = "/:year/:month/:day/:slug/"
-    series = "/:year/:month/:day/:slug/"
-
-#[Taxonomies]
-#    tag = "tags"
-#    series = "series"
-#    series-desc = "series-desc"
+[blackfriday]
+  hrefTargetBlank = true
 
 [params]
-    author = "Samina Fu"
-    description = "This blog is about technology and the record of my life. Hope the logs can help you and me someday."
-    authorimage = "images/sufuf3_1519028337_878.jpg"
-    dateFmt = "Jan 02, 2006"
-    dateformat = "Jan 2, 2017"
-    highlightjs = true
-    mainSections = ["posts"]
+  breadcrumb = true
+  accentColor = "#D250F4"
+  mainSections = ['posts']
 
-## Site Meta Settings
+[params.notFound]
+  gopher = "/images/gopher.png"
+  h1 = 'Bummer!'
+  p = "It seems that this page doesn't exist."
+
+[params.sections]
+  post = "article"
+  portfolio = "project"
+
+[params.sidebar]
+  backgroundImage = ''
+  gradientOverlay = ''
+  logo = "/images/person.jpg"
+
+[params.assets]
+  favicon = ""
+  customCSS = ""
+
+[params.social]
+  github = "https://github.com/sufuf3"
+  twitter = "https://twitter.com/sufuf3149"
+  medium = "https://medium.com/@sufuf3149"
+  gitlab = "https://gitlab.com/sufuf3"
+
+[params.contact]
+  email = ""
+  text= ""
+
+
+[menu]
+
+[[menu.main]]
+  identifier = "about"
+  name = "About"
+  title = "About section"
+  url = "/about/"
+  weight = 2
+
+[[menu.main]]
+  identifier = "tags"
+  name = "Tags"
+  title = "Tags"
+  url = "/tags/"
+  weight = 3
+
+[[menu.main]]
+  identifier = "Categories"
+  name = "Categories"
+  title = "Categories"
+  url = "/categories/"
+  weight = 4
+
+[[menu.main]]
+  identifier = "awesome-blogs"
+  name = "Awesome-blogs"
+  title = "Awesome-blogs"
+  url = "/page/awesome-blogs/"
+  weight = 5
+
+[[menu.main]]
+  identifier = "blog"
+  name = "Post"
+  title = "Blog section"
+  url = "/posts/"
+  weight = 1
+
+[sitemap]
+  changefreq = "monthly"
+  filename = "sitemap.xml"
+  priority = 0.5
+
+[privacy]
+  [privacy.googleAnalytics]
+    anonymizeIP = true
+    disable = false
+    respectDoNotTrack = true
+    useSessionStorage = false
+  [privacy.twitter]
+    disable = false
+    enableDNT = true
+    simple = false
+
 [params.meta]
     description = "Life & Technological Journey of Samina - Hello and welcome to my blog. My name is Samina Fu. This blog is about technology and the record of my life. Hope the logs can help you and me someday."
     keywords = "blog,python,golang,javascript,container,opencord,cord,sdn,network"
 
-
-## Social Accounts
-[params.social]
-    twitter = "sufuf3149"
-    github = "sufuf3"
-    gitlab = "sufuf3"
-    medium = "@sufuf3149"
-    kofi = "sufuf3149"
-
-## Main Menu
-[[menu.main]]
-    name = "Posts"
-    identifier = "posts"
-    url = "/posts/"
-    weight = 1
-
-[[menu.main]]
-    name = "About"
-    identifier = "about"
-    weight = 200
-    url = "/about/"
-
-[[menu.main]]
-    url = "/series/"
-    identifier = "series"
-    name = "Series"
-    weight = 2
-
-[[menu.main]]
-    url = "/tags/"
-    name = "Tags"
-    weight = 3
-
-[[menu.main]]
-    url = "/categories/"
-    name = "Categories"
-    weight = 4
-
-[[menu.main]]
-    url = "/page/awesome-blogs"
-    name = "awesome-blogs"
-    weight = 5
-
-# https://gohugo.io/content-management/related
-[related]
-    # Only include matches with rank >= threshold. This is a normalized rank between 0 and 100.
-    threshold = 80
-    # To get stable "See also" sections we, by default, exclude newer related pages.
-    includeNewer = false
-    # Will lower case keywords in both queries and in the indexes.
-    toLower = false
-
-[[related.indices]]
-    name  = "tags"
-    weight = 100
-[[related.indices]]
-    name = "keywords"
-    weight = 150
-
-[params.adsense]
-  client = "ca-pub-6396786781922729"
+[params.main]
+  latestPublishHeader = ""
