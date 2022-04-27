@@ -89,4 +89,4 @@ Ref:
 - [`自己動手寫 Docker`](http://m.sanmin.com.tw/product/index/006384800)
 
 ### 相關系列文：
-[[Build container] 自己的 Container 自己寫](/series/my-own-container)
+[[Build container] 自己的 Container 自己寫](https://bestsamina.github.io/2018/01/03/build-container-%E8%87%AA%E5%B7%B1%E7%9A%84-container-%E8%87%AA%E5%B7%B1%E5%AF%AB/)
