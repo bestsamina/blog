@@ -39,7 +39,7 @@ pygmentsCodeFences=true
   logo = "/images/person.jpg"
 
 [params.assets]
-  favicon = ""
+  favicon = "/images/favicon.jpg"
   customCSS = ""
 
 [params.social]
