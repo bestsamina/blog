@@ -72,7 +72,7 @@ $ ip a
 
 更改 `/etc/network/interfaces` 檔案，加上下面這幾行  
 
-```
+```sh
 auto ens11f3
 iface ens11f3 inet static
 address 192.188.2.100

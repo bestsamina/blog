@@ -60,7 +60,7 @@ K3s 是將 Kubernetes 的元件 (包含 kube-apiserver, kube-controller-manager,
 
 切換到 root 使用者，並執行以下的 Command  
 
-```
+```sh
 IPADDR=$(ip a show enp0s8 | grep "inet " | awk '{print $2}' | cut -d / -f1)
 curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v0.9.1 INSTALL_K3S_EXEC="--docker --node-ip=${IPADDR} --flannel-iface=enp0s8 --write-kubeconfig-mode 644 --no-deploy=servicelb --no-deploy=traefik" sh -
 ```
@@ -84,19 +84,19 @@ curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v0.9.1 INSTALL_K3S_EXEC="--do
 
 先在 `/etc/hosts` 加入 master node 與 IP 的對應。  
 
-```
+```sh
 echo "$K3SMASTER_IPADDRESS       $K3SMASTER_HOSTNAME" | sudo tee -a /etc/hosts
 ```
 
 接著切換到 root 使用者後，貼上剛剛 Master Node 上取得的認證 token，如下  
 
-```
+```sh
 export NODE_TOKEN=K10571d20534c867fe6ce8d... 
 ```
 
 並執行以下的 Command 來安裝 K3s agent  
 
-```
+```sh
 export K3SMASTER_IPADDRESS=...
 IPADDR=$(ip a show enp0s8 | grep "inet " | awk '{print $2}' | cut -d / -f1)
 curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v0.9.1 INSTALL_K3S_EXEC="--docker --node-ip=${IPADDR} --flannel-iface=enp0s8" K3S_URL=https://${K3SMASTER_IPADDRESS}:6443 K3S_TOKEN=${NODE_TOKEN} sh -
@@ -119,13 +119,13 @@ curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v0.9.1 INSTALL_K3S_EXEC="--do
 
 1. 在 Host 上啟動兩台 VM 並且在 Master 的 VM 中安裝 K3s server。
 
-```
+```sh
 $ sh deploy-vagrant.sh
 ```
 
 2. 在第一步驟完成後，會得到類似 `export NODE_TOKEN=K10571d20534c867fe6ce8d...` 的字串，將這字串複製後，透過 `vageant ssh node1` 進入 node 的 VM 並且執行以下的指令  
 
-```
+```sh
 sudo su -
 cd /home/vagrant/
 export NODE_TOKEN=K10571d20534c867fe6ce8d... // 是複製的字串
@@ -139,7 +139,7 @@ sh install-k3s-node.sh ${NODE_TOKEN}
 首先先進入 Master Node，你可以透過 k3s 指令看到它有支援的 commands，如下，因此我們可以直接使用 kubectl, crictl, ctr：  
 而因為我們使用 Docker 為我們的 container 引擎，所以本篇只用 kubectl 來和大家一起驗證。  
 
-```
+```sh
 $ k3s -h
 NAME:
    k3s - Kubernetes, but small and simple
@@ -166,7 +166,7 @@ GLOBAL OPTIONS:
 
 我們可以透過 kubectl 來查看 Cluster node 資訊與 component 的狀態。  
 
-```
+```sh
 $ kubectl get no -o wide
 NAME     STATUS   ROLES    AGE   VERSION         INTERNAL-IP     EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION      CONTAINER-RUNTIME
 master   Ready    master   97m   v1.15.4-k3s.1   192.168.0.200   <none>        Ubuntu 18.04.3 LTS   4.15.0-64-generic   containerd://1.2.8-k3s.1
@@ -180,7 +180,7 @@ controller-manager   Healthy   ok
 
 也可以用 kubectl 來跑一個 deployment 來啟動一個 nginx ，如以下 Lab。  
 
-```
+```sh
 $ kubectl run mynginx --image=nginx --replicas=1 --port=80
 deployment.apps/mynginx created
 $ kubectl expose deployment mynginx --port 80
@@ -230,13 +230,13 @@ Commercial support is available at
 
 在 K3s Server 端執行  
 
-```
+```sh
 systemctl stop k3s && /usr/local/bin/k3s-uninstall.sh
 ```
 
 ；在 k3s agent 端執行  
 
-```
+```sh
 systemctl stop k3s-agent && /usr/local/bin/k3s-agent-uninstall.sh
 ```
 
