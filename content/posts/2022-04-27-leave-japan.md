@@ -11,8 +11,8 @@ categories = ["Life"]
 在 2022/03/14 接收到口頭 offer、2022/03/16 接收到正式 offer letter 後，因為 paid leave 蠻多的，剛好可以在這段休假期間，開始我的搬家之旅。
 
 ## 時程安排
-![](https://i.imgur.com/Npo1scD.png)
-![](https://i.imgur.com/SEaIoXS.jpg)
+![](https://i.imgur.com/MU4jUSU.png)
+![](https://i.imgur.com/ub3TLu5.png)
 
 ## 重點處理事項
 
