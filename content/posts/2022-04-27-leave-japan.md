@@ -63,6 +63,7 @@ My number 卡上會被蓋上「返納」章並交還給你。申請時也需要�
   
   - 住民稅：
   須將表單送到當地税事務所辦理。我因為住在埼玉縣，所以是市民税・県民税。是要到市税事務所。我自己是於[這邊](https://www.city.saitama.jp/001/004/002/001/002/p001730.html)取得表單和確認地點。  
+  P.S. 也可以在日本的時候將剩下的一年住民稅直接繳清。可以使用"一括徴収"。詳情可以看[外国人の方の個人住民税について](https://www.soumu.go.jp/main_sosiki/jichi_zeisei/czaisei/czaisei_seido/individual-inhabitant-tax.html)  
   - 所得稅：
   要將表單送到税務署辦理。[表單](https://www.nta.go.jp/taxes/tetsuzuki/shinsei/annai/shinkoku/annai/07.htm)、[地點查詢](https://www.nta.go.jp/about/organization/index.htm)  
 - **郵便物転居届け**：填朋友的地址，有效期為一年。  
